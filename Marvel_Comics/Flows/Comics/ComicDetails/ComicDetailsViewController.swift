@@ -9,21 +9,58 @@ import UIKit
 
 class ComicDetailsViewController: UIViewController {
 
+    //MARK: - Properties
+    
+    var comic: ComicResult?
+    
+    var comicNameLabel = UILabel()
+    var coverImageView = UIImageView()
+    var descriptionTextView = UITextView()
+    
+    let parentStackView = UIStackView()
+    
+    //MARK: - View life cycle methods
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        setupView()
+        setupData()
     }
     
+    //MARK: - Methods
 
-    /*
-    // MARK: - Navigation
+    
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    //MARK: - View configuration
+
+extension ComicDetailsViewController {
+    
+    func setupView() {
+        comicNameLabel.textAlignment = .center
+        
+        parentStackView.translatesAutoresizingMaskIntoConstraints = false
+        parentStackView.axis = .vertical
+        parentStackView.spacing = 12
+        parentStackView.addArrangedSubview(comicNameLabel)
+        parentStackView.addArrangedSubview(coverImageView)
+        parentStackView.addArrangedSubview(descriptionTextView)
+
+        view.addSubview(parentStackView)
+        
+        NSLayoutConstraint.activate([
+            coverImageView.widthAnchor.constraint(equalToConstant: 220),
+            coverImageView.heightAnchor.constraint(equalToConstant: 300),
+            descriptionTextView.heightAnchor.constraint(equalToConstant: 300),
+            parentStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            parentStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
-    */
-
+    
+    func setupData() {
+        comicNameLabel.text = comic?.title
+        let imagepath = "\(comic?.thumbnail.path ?? "")"+".\(comic?.thumbnail.thumbnailExtension ?? "")"
+        coverImageView.loadImage(imagepath)
+        descriptionTextView.text = comic?.description
+    }
 }

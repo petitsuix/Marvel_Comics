@@ -9,9 +9,10 @@ import UIKit
 
 class HomeActionButton: UIButton {
     
-    func setup() {
+    func setup(title: String) {
         backgroundColor = MCAColor.marvelRed
         setTitleColor(.white, for: .normal)
+        setTitle(title, for: .normal)
         roundCorners(radius: 8)
     }
 }

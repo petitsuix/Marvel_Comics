@@ -17,12 +17,31 @@ class AppCoordinator: Coordinator {
     }
     
     func start() {
-        print("ok")
         showHomeScreen()
     }
     
     func showHomeScreen() {
         let homeViewController = HomeViewController()
+        homeViewController.coordinator = self
         navigationController.pushViewController(homeViewController, animated: false)
+    }
+    
+    func showAllComicsScreen() {
+        let allComicsViewController = ComicsListViewController()
+        allComicsViewController.dataMode = .api
+        allComicsViewController.coordinator = self
+        navigationController.pushViewController(allComicsViewController, animated: true)
+    }
+    
+    func showFavoriteComicsScreen() {
+        let favoriteComicsViewController = ComicsListViewController()
+        favoriteComicsViewController.dataMode = .coreData
+        navigationController.pushViewController(favoriteComicsViewController, animated: true)
+    }
+    
+    func showComicDetailsScreen(comic: ComicResult) {
+        let comicDetailsViewController = ComicDetailsViewController()
+        comicDetailsViewController.comic = comic
+        navigationController.pushViewController(comicDetailsViewController, animated: true)
     }
 }

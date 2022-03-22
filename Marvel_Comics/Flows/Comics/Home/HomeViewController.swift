@@ -11,6 +11,8 @@ class HomeViewController: UIViewController {
     
     //MARK: - Properties
     
+    weak var coordinator: AppCoordinator?
+    
     let parentStackView = UIStackView()
     let logoImageView = UIImageView()
     let browseAllComicsButton = HomeActionButton()
@@ -21,6 +23,18 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+    }
+    
+    //MARK: - @objc methods
+    
+    @objc
+    func showAllComicsScreen() {
+        coordinator?.showAllComicsScreen()
+    }
+    
+    @objc
+    func showFavoriteComicsScreen() {
+        coordinator?.showFavoriteComicsScreen()
     }
 
     //MARK: - Methods
@@ -36,11 +50,11 @@ extension HomeViewController {
         logoImageView.image = MCAImages.marvelLogo
         logoImageView.contentMode = .scaleAspectFit
         
-        browseAllComicsButton.setup()
-        browseAllComicsButton.setTitle(Strings.allComics, for: .normal)
+        browseAllComicsButton.setup(title: Strings.allComics)
+        browseAllComicsButton.addTarget(self, action: #selector(showAllComicsScreen), for: .touchUpInside)
         
-        favoriteComicsButton.setup()
-        favoriteComicsButton.setTitle(Strings.favoriteComics, for: .normal)
+        favoriteComicsButton.setup(title: Strings.favoriteComics)
+        favoriteComicsButton.addTarget(self, action: #selector(showFavoriteComicsScreen), for: .touchUpInside)
         
         parentStackView.translatesAutoresizingMaskIntoConstraints = false
         parentStackView.axis = .vertical
@@ -50,13 +64,14 @@ extension HomeViewController {
         parentStackView.addArrangedSubview(browseAllComicsButton)
         parentStackView.addArrangedSubview(favoriteComicsButton)
         
+        view.backgroundColor = .systemBackground
         view.addSubview(parentStackView)
         
         NSLayoutConstraint.activate([
-            parentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
-            parentStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
-            parentStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            parentStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+            parentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            parentStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            parentStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            parentStackView.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
     }
 }

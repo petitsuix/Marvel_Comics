@@ -9,4 +9,5 @@ import UIKit
 
 enum MCAImages {
     static let marvelLogo = #imageLiteral(resourceName: "marvellogo")
+    static let defaultComicImage = #imageLiteral(resourceName: "noAvailableComicImage")
 }
