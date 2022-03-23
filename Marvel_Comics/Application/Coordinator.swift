@@ -11,5 +11,4 @@ protocol Coordinator {
     
     func start()
     var navigationController: UINavigationController { get set }
-    
 }

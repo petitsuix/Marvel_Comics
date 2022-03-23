@@ -11,7 +11,7 @@ class StorageService {
     
     // MARK: - Properties
     
-    private var viewContext: NSManagedObjectContext
+    var viewContext: NSManagedObjectContext
     
     static private var persistentContainer: NSPersistentContainer = {
         
@@ -31,7 +31,7 @@ class StorageService {
     }
     
     func loadComics() throws -> [ComicResult] {
-        let fetchRequest: NSFetchRequest<ComicsEntity> = ComicsEntity.fetchRequest() // Retrieves a group of managed objects held in the persistent store
+        let fetchRequest: NSFetchRequest<ComicsEntity> = ComicsEntity.fetchRequest()
         let comicsEntities: [ComicsEntity]
         
         do { comicsEntities = try viewContext.fetch(fetchRequest) }

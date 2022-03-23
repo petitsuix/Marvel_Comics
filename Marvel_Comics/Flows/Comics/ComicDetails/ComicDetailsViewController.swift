@@ -8,7 +8,7 @@
 import UIKit
 
 class ComicDetailsViewController: UIViewController {
-
+    
     //MARK: - Properties
     
     var storageService = StorageService()
@@ -22,7 +22,7 @@ class ComicDetailsViewController: UIViewController {
     let parentStackView = UIStackView()
     
     //MARK: - View life cycle methods
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -58,7 +58,7 @@ class ComicDetailsViewController: UIViewController {
         guard let _ = comics?.first(where: { $0 == comic }) else { isComicFavorite = false; return }
         isComicFavorite = true
     }
-
+    
     private func addToFavorite() {
         guard let comic = comic else { return }
         do {
@@ -83,12 +83,13 @@ class ComicDetailsViewController: UIViewController {
     
 }
 
-    //MARK: - View configuration
+//MARK: - View configuration
 
 extension ComicDetailsViewController {
     
     func setupView() {
         comicNameLabel.textAlignment = .center
+        coverImageView.image = MCAImages.defaultComicImage
         
         parentStackView.translatesAutoresizingMaskIntoConstraints = false
         parentStackView.axis = .vertical
@@ -96,7 +97,7 @@ extension ComicDetailsViewController {
         parentStackView.addArrangedSubview(comicNameLabel)
         parentStackView.addArrangedSubview(coverImageView)
         parentStackView.addArrangedSubview(descriptionTextView)
-
+        
         view.backgroundColor = .systemBackground
         view.addSubview(parentStackView)
         
@@ -120,8 +121,8 @@ extension ComicDetailsViewController {
     
     func setupData() {
         comicNameLabel.text = comic?.title
-        let imagepath = "\(comic?.thumbnail.path ?? "")"+".\(comic?.thumbnail.thumbnailExtension ?? "")"
-        coverImageView.loadImage(imagepath)
+        let imagePath = "\(comic?.thumbnail.path ?? "")"+".\(comic?.thumbnail.thumbnailExtension ?? "")"
+        coverImageView.loadImage(imagePath)
         descriptionTextView.text = comic?.description
     }
 }

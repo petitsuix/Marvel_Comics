@@ -11,9 +11,9 @@ class ComicCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Properties
     
-    var coverImageView = UIImageView()
-    var comicNameLabel = UILabel()
-    var parentStackView = UIStackView()
+    private let coverImageView = UIImageView()
+    private let comicNameLabel = UILabel()
+    private let parentStackView = UIStackView()
     
     static let identifier = "ComicCell"
     var comic: ComicResult? {
@@ -33,21 +33,16 @@ class ComicCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("error")
     }
-
+    
     private func refreshData() {
         comicNameLabel.text = comic?.title
         let imagepath = "\(comic?.thumbnail.path ?? "")"+".\(comic?.thumbnail.thumbnailExtension ?? "")"
-        coverImageView.loadImage(imagepath)
+        if imagepath == "." {
+            coverImageView.image = MCAImages.defaultComicImage
+        } else {
+            coverImageView.loadImage(imagepath)
+        }
     }
-    
-//    func refreshData() {
-//        comicNameLabel.text = comic?.title
-//        if let imageUrl = comic?.thumbnail.path {
-//            coverImageView.loadImage(imageUrl)
-//        } else {
-//            coverImageView.image = MCAImages.defaultComicImage
-//        }
-//    }
     
     func setup() {
         parentStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -59,6 +54,7 @@ class ComicCollectionViewCell: UICollectionViewCell {
         addSubview(parentStackView)
         
         NSLayoutConstraint.activate([
+            comicNameLabel.heightAnchor.constraint(equalToConstant: 30),
             parentStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 0),
             parentStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: 0),
             parentStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 0),

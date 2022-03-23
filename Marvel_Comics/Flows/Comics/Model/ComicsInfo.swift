@@ -43,6 +43,8 @@ extension ComicResult {
     }
 }
 
+//MARK: - Conformance
+
 extension ComicResult: Equatable, Hashable {
     static func == (lhs: ComicResult, rhs: ComicResult) -> Bool {
         return lhs.title == rhs.title

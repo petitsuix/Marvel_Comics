@@ -7,12 +7,10 @@
 
 class ComicsFlowModel {
     
-    private let coordinator: AppCoordinator
-    private let storageService: StorageService
+    private let coordinator: AppCoordinatorProtocol
     
-    init(coordinator: AppCoordinator, storageService: StorageService) {
+    init(coordinator: AppCoordinatorProtocol) {
         self.coordinator = coordinator
-        self.storageService = storageService
     }
     
     func showAllComicsScreen() {
