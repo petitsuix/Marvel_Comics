@@ -9,18 +9,20 @@ import UIKit
 
 class ComicCollectionViewCell: UICollectionViewCell {
     
-    //MARK: - Properties
-    
-    private let coverImageView = UIImageView()
-    private let comicNameLabel = UILabel()
-    private let parentStackView = UIStackView()
-    
+    //MARK: - Internal properties
+
     static let identifier = "ComicCell"
     var comic: ComicResult? {
         didSet {
             refreshData()
         }
     }
+    
+    //MARK: - Private properties
+    
+    private let coverImageView = UIImageView()
+    private let comicNameLabel = UILabel()
+    private let parentStackView = UIStackView()
     
     //MARK: - Methods
     
@@ -36,13 +38,18 @@ class ComicCollectionViewCell: UICollectionViewCell {
     
     private func refreshData() {
         comicNameLabel.text = comic?.title
-        let imagepath = "\(comic?.thumbnail.path ?? "")"+".\(comic?.thumbnail.thumbnailExtension ?? "")"
-        if imagepath == "." {
+        let imagePath = "\(comic?.thumbnail.path ?? "")"+".\(comic?.thumbnail.thumbnailExtension ?? "")"
+        if imagePath == "." {
             coverImageView.image = MCAImages.defaultComicImage
         } else {
-            coverImageView.loadImage(imagepath)
+            coverImageView.loadImage(imagePath)
         }
     }
+}
+
+//MARK: - View configuration
+
+extension ComicCollectionViewCell {
     
     func setup() {
         parentStackView.translatesAutoresizingMaskIntoConstraints = false

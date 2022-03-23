@@ -10,11 +10,13 @@ import Alamofire
 class NetworkService {
     
     // MARK: - Properties
+    
     private let session: Session
     private let baseUrl = "https://gateway.marvel.com/v1/public/comics?"
     
     // MARK: - Methods
-    init(session: Session = .default) { // Session is .default here but value is changed for API tests
+    
+    init(session: Session = .default) {
         self.session = session
     }
     

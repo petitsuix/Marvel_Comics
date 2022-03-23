@@ -194,12 +194,9 @@
 		97289A3427E8CEC1002BD410 /* Marvel_ComicsTests */ = {
 			isa = PBXGroup;
 			children = (
-				97289A9827EB83D4002BD410 /* CoreData */,
+				97289A9C27EB9A84002BD410 /* FakeData */,
 				97289A8B27EB7694002BD410 /* Mocks */,
-				97289A8E27EB7837002BD410 /* Models */,
-				97289A9327EB815E002BD410 /* API */,
-				97289A8F27EB7DB5002BD410 /* fakeData.swift */,
-				97289A9127EB7E66002BD410 /* Marvel.json */,
+				97289A9B27EB9A57002BD410 /* Tests */,
 			);
 			path = Marvel_ComicsTests;
 			sourceTree = "<group>";
@@ -291,6 +288,7 @@
 		97289A5A27E8DDE4002BD410 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				97289A6527E8E552002BD410 /* HomeActionButton.swift */,
 				97289A5927E8DD27002BD410 /* Cells */,
 				97289A2927E8CEC1002BD410 /* LaunchScreen.storyboard */,
 				97289A2127E8CEBF002BD410 /* Main.storyboard */,
@@ -329,7 +327,6 @@
 			isa = PBXGroup;
 			children = (
 				97289A1F27E8CEBF002BD410 /* HomeViewController.swift */,
-				97289A6527E8E552002BD410 /* HomeActionButton.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -422,6 +419,25 @@
 				97289A9927EB83E9002BD410 /* CoreDataTests.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		97289A9B27EB9A57002BD410 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				97289A8E27EB7837002BD410 /* Models */,
+				97289A9827EB83D4002BD410 /* CoreData */,
+				97289A9327EB815E002BD410 /* API */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		97289A9C27EB9A84002BD410 /* FakeData */ = {
+			isa = PBXGroup;
+			children = (
+				97289A8F27EB7DB5002BD410 /* fakeData.swift */,
+				97289A9127EB7E66002BD410 /* Marvel.json */,
+			);
+			path = FakeData;
 			sourceTree = "<group>";
 		};
 		D9810046A79BB15FF02F106F /* Pods */ = {
@@ -889,7 +905,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -918,7 +934,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

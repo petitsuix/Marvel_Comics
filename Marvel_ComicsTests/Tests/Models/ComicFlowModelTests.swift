@@ -10,9 +10,13 @@ import XCTest
 
 class ComicFlowModelTests: XCTestCase {
     
+    // MARK: - Properties
+    
     var fakeComic: ComicResult!
     var model: ComicsFlowModel!
     var coordinatorMock: CoordinatorMock!
+    
+    //MARK: - setUp & tearDown methods
 
     override func setUpWithError() throws {
         super.setUp()
@@ -24,6 +28,8 @@ class ComicFlowModelTests: XCTestCase {
     override func tearDownWithError() throws {
         model = nil
     }
+    
+    // MARK: - Tests
     
     func testShowAllComicsScreen() {
         XCTAssertFalse(coordinatorMock.showAllComicsCalled)

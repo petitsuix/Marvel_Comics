@@ -9,17 +9,19 @@ import UIKit
 
 class ComicDetailsViewController: UIViewController {
     
-    //MARK: - Properties
+    //MARK: - Internal properties
     
-    var storageService = StorageService()
     var comic: ComicResult?
-    var isComicFavorite = false
     
-    var comicNameLabel = UILabel()
-    var coverImageView = UIImageView()
-    var descriptionTextView = UITextView()
+    //MARK: - Private properties
     
-    let parentStackView = UIStackView()
+    private let storageService = StorageService()
+    private var isComicFavorite = false
+    
+    private let comicNameLabel = UILabel()
+    private let coverImageView = UIImageView()
+    private let descriptionTextView = UITextView()
+    private let parentStackView = UIStackView()
     
     //MARK: - View life cycle methods
     
@@ -40,11 +42,11 @@ class ComicDetailsViewController: UIViewController {
     @objc
     func toggleFavorite() {
         if isComicFavorite == true {
-            navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart")
+            navigationItem.rightBarButtonItem?.image = MCAImages.heart
             removeFromFavorite()
             isComicFavorite = false
         } else {
-            navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart.fill")
+            navigationItem.rightBarButtonItem?.image = MCAImages.heartFilled
             addToFavorite()
             isComicFavorite = true
         }
@@ -80,7 +82,6 @@ class ComicDetailsViewController: UIViewController {
             alert(Strings.oops, Strings.couldNotDelete)
         }
     }
-    
 }
 
 //MARK: - View configuration

@@ -9,13 +9,17 @@ import CoreData
 import XCTest
 @testable import Marvel_Comics
 
-class WhereIsMyWarrantyTests: XCTestCase {
+class CoreDataTests: XCTestCase {
+    
+    // MARK: - Properties
     
     var storageService: StorageService!
     var loadedComics: [ComicResult] = []
     
     var comic1 = FakeData.comics.first!
     var comic2 = FakeData.comics[1]
+    
+    // MARK: - setUp & tearDown Methods
     
     override func setUp() {
         super.setUp()
@@ -43,6 +47,8 @@ class WhereIsMyWarrantyTests: XCTestCase {
         storageService = nil
         loadedComics = []
     }
+    
+    // MARK: - Tests
     
     func testComicLoading() throws {
         var loadedComics: [ComicResult] = []

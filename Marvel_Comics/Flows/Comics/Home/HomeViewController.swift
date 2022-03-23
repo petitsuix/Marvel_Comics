@@ -13,10 +13,10 @@ class HomeViewController: UIViewController {
     
     var model: ComicsFlowModel?
     
-    let parentStackView = UIStackView()
-    let logoImageView = UIImageView()
-    let browseAllComicsButton = HomeActionButton()
-    let favoriteComicsButton = HomeActionButton()
+    private let parentStackView = UIStackView()
+    private let logoImageView = UIImageView()
+    private let browseAllComicsButton = HomeActionButton()
+    private let favoriteComicsButton = HomeActionButton()
 
     //MARK: - View life cycle methods
 

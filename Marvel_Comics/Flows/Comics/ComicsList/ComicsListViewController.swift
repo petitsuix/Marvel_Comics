@@ -13,14 +13,14 @@ enum DataMode {
     var title: String {
         switch self {
         case .api:
-            return "Tous les comics"
+            return Strings.allComics
         case .coreData:
-            return "Favoris"
+            return Strings.favoriteComics
         }
     }
 }
 
-enum State<Data> { // To execute particular actions according to the situation
+enum State<Data> {
     case loading
     case empty
     case error
@@ -28,6 +28,8 @@ enum State<Data> { // To execute particular actions according to the situation
 }
 
 class ComicsListViewController: UIViewController {
+    
+    //MARK: - Enums
     
     private enum Section {
         case main
@@ -37,28 +39,26 @@ class ComicsListViewController: UIViewController {
         case comic(ComicResult, id: UUID = UUID())
     }
 
-    //MARK: - Properties
-    
-    var storageService = StorageService()
+    //MARK: - Internal properties
     
     var dataMode: DataMode = .coreData
     var model: ComicsFlowModel?
-    var networkService = NetworkService()
-    var comics: [ComicResult] = []
     
+    //MARK: - Private properties
+    
+    private let storageService = StorageService()
+    private let networkService = NetworkService()
+    private var comics: [ComicResult] = []
     private var viewState: State<[ComicResult]> = .loading {
         didSet {
-            resetState() // Hides tableview, stops activity indicator animation
+            resetState()
             switch viewState {
             case .loading :
                 activityIndicator.startAnimating()
-                print("loading")
             case .empty :
                 displayNoResultView()
-                print("empty")
             case .error :
-                // alert("Oops...", "Something went wrong, please try again.")
-                print("error : fell into the .error case of viewState")
+                alert(Strings.oops, Strings.somethingWentWrong)
             case .showData(let comics) :
                 self.comics = comics
                 collectionView.isHidden = false
@@ -86,8 +86,6 @@ class ComicsListViewController: UIViewController {
         fetchComicsFromDatabase()
     }
     
-    //MARK: - @objc methods
-    
     //MARK: - Methods
     
     private func resetState() {
@@ -95,26 +93,7 @@ class ComicsListViewController: UIViewController {
         activityIndicator.stopAnimating()
     }
     
-    private func fetchComicsFromDatabase() {
-        if dataMode == .coreData {
-            do {
-                comics = try storageService.loadComics()
-                if comics.isEmpty {
-                    viewState = .empty
-                } else {
-                    viewState = .showData(comics)
-                }
-            } catch { print("erreur : \(error)"); alert(Strings.couldNotLoadData, Strings.somethingWentWrong)}
-        }
-    }
-    
-    private func fetchComicsFromApi() {
-        if dataMode == .api {
-            fetchComics()
-        }
-    }
-    
-    func configureDataSource() {
+    private func configureDataSource() {
         diffableDataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             switch itemIdentifier {
             case .comic(let result, _):
@@ -137,24 +116,45 @@ class ComicsListViewController: UIViewController {
         return snapshot
     }
     
+    private func fetchComicsFromDatabase() {
+        if dataMode == .coreData {
+            do {
+                comics = try storageService.loadComics()
+                if comics.isEmpty {
+                    viewState = .empty
+                } else {
+                    viewState = .showData(comics)
+                }
+            } catch { print("erreur : \(error)"); alert(Strings.couldNotLoadData, Strings.somethingWentWrong)}
+        }
+    }
+    
+    private func fetchComicsFromApi() {
+        if dataMode == .api {
+            fetchComics()
+        }
+    }
+    
     private func fetchComics() {
-        viewState = .loading // Triggers activity indicator
-        networkService.fetchData() { [weak self] result in // Calling data request. Completion expecting a result of type Result<success, failure>
+        viewState = .loading
+        networkService.fetchData() { [weak self] result in
             guard let self = self else { return }
-            DispatchQueue.main.async { // Allows to modify UI from main thread
+            DispatchQueue.main.async {
                 switch result {
                 case .success(let comicInfo) where comicInfo.data.results.isEmpty :
                     self.viewState = .empty
                 case .success(let comicInfo):
                     self.viewState = .showData(comicInfo.data.results)
                 case .failure(let error):
-                    self.alert("Houston ?", "Something went wrong while trying to load comics. Perhaps you should give it another try ?")
+                    self.alert(Strings.houston, Strings.somethingWentWrong)
                     print(error)
                 }
             }
         }
     }
 }
+
+//MARK: - CollectionView configuration
 
 extension ComicsListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -14,7 +14,7 @@ final class FakeData {
     class FakeError: Error {}
     static let error = FakeError()
     
-    static let viewContext: NSManagedObjectContext? = nil
+    //static let viewContext: NSManagedObjectContext? = nil
     
     static var comics: [ComicResult] {
         let comicInfo = try! JSONDecoder().decode(ComicsInfo.self, from: comicData)

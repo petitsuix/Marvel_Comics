@@ -50,8 +50,8 @@ class APITests: XCTestCase {
         wait(for: [expectation], timeout: 1)
     }
 
-    func testGetRecipesShouldWork() throws {
-        let expectation = XCTestExpectation(description: "get recipes")
+    func testGetComicsShouldWork() throws {
+        let expectation = XCTestExpectation(description: "get comics")
         // Given :
         UrlProtocolMock.data = FakeData.comicData
         // When :

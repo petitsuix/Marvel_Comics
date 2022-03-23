@@ -17,4 +17,5 @@ enum Strings {
     static let somethingWentWrong = "Quelque chose s'est mal passé, merci de réessayer ultérieurement"
     static let oops = "Oups..."
     static let nothingToShowHere = "\n\n\n\n\nHouston, aucun comic à l'horizon !"
+    static let houston = "Houston ?"
 }

@@ -11,7 +11,7 @@ class StorageService {
     
     // MARK: - Properties
     
-    var viewContext: NSManagedObjectContext
+    private let viewContext: NSManagedObjectContext
     
     static private var persistentContainer: NSPersistentContainer = {
         
@@ -56,7 +56,7 @@ class StorageService {
     
     func deleteComic(_ comic: ComicResult) throws {
         let fetchRequest: NSFetchRequest<ComicsEntity> = ComicsEntity.fetchRequest()
-        let predicate = NSPredicate(format: "comicName == %@", comic.title) // Condition used to constrain the search
+        let predicate = NSPredicate(format: "comicName == %@", comic.title)
         fetchRequest.predicate = predicate
         let comicEntities: [ComicsEntity]
         do {
