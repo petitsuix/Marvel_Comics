@@ -11,9 +11,11 @@ import UIKit
 class AppCoordinator: Coordinator {
     
     var navigationController: UINavigationController
+    var storageService: StorageService
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, storageService: StorageService) {
         self.navigationController = navigationController
+        self.storageService = storageService
     }
     
     func start() {
@@ -22,19 +24,20 @@ class AppCoordinator: Coordinator {
     
     func showHomeScreen() {
         let homeViewController = HomeViewController()
-        homeViewController.coordinator = self
+        homeViewController.model = ComicsFlowModel(coordinator: self, storageService: storageService)
         navigationController.pushViewController(homeViewController, animated: false)
     }
     
     func showAllComicsScreen() {
         let allComicsViewController = ComicsListViewController()
+        allComicsViewController.model = ComicsFlowModel(coordinator: self, storageService: storageService)
         allComicsViewController.dataMode = .api
-        allComicsViewController.coordinator = self
         navigationController.pushViewController(allComicsViewController, animated: true)
     }
     
     func showFavoriteComicsScreen() {
         let favoriteComicsViewController = ComicsListViewController()
+        favoriteComicsViewController.model = ComicsFlowModel(coordinator: self, storageService: storageService)
         favoriteComicsViewController.dataMode = .coreData
         navigationController.pushViewController(favoriteComicsViewController, animated: true)
     }

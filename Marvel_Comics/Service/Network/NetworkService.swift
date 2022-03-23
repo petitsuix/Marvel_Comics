@@ -19,7 +19,7 @@ class NetworkService {
     }
     
     func fetchData(completion: @escaping (Result<ComicsInfo, AFError>) -> Void) {
-        let url = "\(baseUrl)ts=1&apikey=\(APIKeys.publicKey)&hash=\(APIKeys.hash)"
+        let url = "\(baseUrl)ts=1&apikey=\(APIKeys.publicKey)&hash=\(APIKeys.hash)&limit=100"
         print(url)
         session.request(url).validate().responseDecodable(of: ComicsInfo.self) { (response) in // creating a data request from the encoded url
             completion(response.result)

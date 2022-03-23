@@ -31,20 +31,17 @@ struct Thumbnail: Codable {
     }
 }
 
-//extension ComicResult {
-//    init(from recipeEntity: RecipesEntity) {
-//        self.name = recipeEntity.name ?? ""
-//        self.recipeUrl = recipeEntity.recipeUrl ?? ""
-//        self.imageUrl = recipeEntity.imageUrl ?? ""
-//        if let ingredientsData = recipeEntity.ingredients, let ingredients = try? JSONDecoder().decode([String].self, from: ingredientsData) {
-//            self.ingredients = ingredients
-//        } else {
-//            self.ingredients = []
-//        }
-//        self.numberOfGuests = recipeEntity.numberOfGuests
-//        self.totalTime = recipeEntity.totalTime
-//    }
-//}
+extension ComicResult {
+    init(from comicEntity: ComicsEntity) {
+        self.title = comicEntity.comicName ?? ""
+        self.description = comicEntity.comicDescription ?? ""
+        if let coverData = comicEntity.comicCover, let coverImage = try? JSONDecoder().decode(Thumbnail.self, from: coverData) {
+            self.thumbnail = coverImage
+        } else {
+            self.thumbnail = Thumbnail(path: "image_not_available", thumbnailExtension: "jpg")
+        }
+    }
+}
 
 extension ComicResult: Equatable, Hashable {
     static func == (lhs: ComicResult, rhs: ComicResult) -> Bool {

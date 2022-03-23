@@ -11,7 +11,9 @@ class ComicDetailsViewController: UIViewController {
 
     //MARK: - Properties
     
+    var storageService = StorageService()
     var comic: ComicResult?
+    var isComicFavorite = false
     
     var comicNameLabel = UILabel()
     var coverImageView = UIImageView()
@@ -27,8 +29,57 @@ class ComicDetailsViewController: UIViewController {
         setupData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchFavoriteState()
+        setupFavoriteButton()
+    }
+    
+    //MARK: - @objc methods
+    
+    @objc
+    func toggleFavorite() {
+        if isComicFavorite == true {
+            navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart")
+            removeFromFavorite()
+            isComicFavorite = false
+        } else {
+            navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart.fill")
+            addToFavorite()
+            isComicFavorite = true
+        }
+    }
+    
     //MARK: - Methods
+    
+    private func fetchFavoriteState() {
+        guard let comic = comic else { return }
+        let comics = try? storageService.loadComics()
+        guard let _ = comics?.first(where: { $0 == comic }) else { isComicFavorite = false; return }
+        isComicFavorite = true
+    }
 
+    private func addToFavorite() {
+        guard let comic = comic else { return }
+        do {
+            try storageService.saveComic(comic)
+            fetchFavoriteState()
+        } catch {
+            print(ServiceError.savingError)
+            alert(Strings.wellWell, Strings.couldNotSave)
+        }
+    }
+    
+    private func removeFromFavorite() {
+        guard let comic = comic else { return }
+        do {
+            try storageService.deleteComic(comic)
+            isComicFavorite = false
+        } catch {
+            print(ServiceError.deletingError)
+            alert(Strings.oops, Strings.couldNotDelete)
+        }
+    }
     
 }
 
@@ -46,6 +97,7 @@ extension ComicDetailsViewController {
         parentStackView.addArrangedSubview(coverImageView)
         parentStackView.addArrangedSubview(descriptionTextView)
 
+        view.backgroundColor = .systemBackground
         view.addSubview(parentStackView)
         
         NSLayoutConstraint.activate([
@@ -55,6 +107,15 @@ extension ComicDetailsViewController {
             parentStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             parentStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
+    }
+    
+    func setupFavoriteButton() {
+        let navBarRightItem = UIBarButtonItem(
+            image: UIImage(systemName: isComicFavorite ? "heart.fill" : "heart"),
+            style: .plain,
+            target: self,
+            action: #selector(toggleFavorite))
+        navigationItem.rightBarButtonItem = navBarRightItem
     }
     
     func setupData() {

@@ -39,8 +39,10 @@ class ComicsListViewController: UIViewController {
 
     //MARK: - Properties
     
+    var storageService = StorageService()
+    
     var dataMode: DataMode = .coreData
-    var coordinator: AppCoordinator?
+    var model: ComicsFlowModel?
     var networkService = NetworkService()
     var comics: [ComicResult] = []
     
@@ -52,7 +54,7 @@ class ComicsListViewController: UIViewController {
                 activityIndicator.startAnimating()
                 print("loading")
             case .empty :
-            //    displayNoResultView()
+                displayNoResultView()
                 print("empty")
             case .error :
                 // alert("Oops...", "Something went wrong, please try again.")
@@ -77,11 +79,11 @@ class ComicsListViewController: UIViewController {
         setupView()
         fetchComicsFromApi()
         configureDataSource()
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        super.viewWillAppear(animated)
+        fetchComicsFromDatabase()
     }
     
     //MARK: - @objc methods
@@ -91,6 +93,19 @@ class ComicsListViewController: UIViewController {
     private func resetState() {
         collectionView.isHidden = true
         activityIndicator.stopAnimating()
+    }
+    
+    private func fetchComicsFromDatabase() {
+        if dataMode == .coreData {
+            do {
+                comics = try storageService.loadComics()
+                if comics.isEmpty {
+                    viewState = .empty
+                } else {
+                    viewState = .showData(comics)
+                }
+            } catch { print("erreur : \(error)"); alert(Strings.couldNotLoadData, Strings.somethingWentWrong)}
+        }
     }
     
     private func fetchComicsFromApi() {
@@ -133,7 +148,7 @@ class ComicsListViewController: UIViewController {
                 case .success(let comicInfo):
                     self.viewState = .showData(comicInfo.data.results)
                 case .failure(let error):
-                   // self.alert("Houston ?", "Something went wrong while trying to load comics. Perhaps you should give it another try ?")
+                    self.alert("Houston ?", "Something went wrong while trying to load comics. Perhaps you should give it another try ?")
                     print(error)
                 }
             }
@@ -143,7 +158,7 @@ class ComicsListViewController: UIViewController {
 
 extension ComicsListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        coordinator?.showComicDetailsScreen(comic: comics[indexPath.row])
+        model?.showComicDetailsScreen(comic: comics[indexPath.row])
     }
 }
 
@@ -155,6 +170,8 @@ extension ComicsListViewController {
     }
     
     func setupView() {
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        
         let comicsLayout = UICollectionViewFlowLayout()
         comicsLayout.scrollDirection = .vertical
         comicsLayout.itemSize = CGSize(width: view.frame.size.width/2.5, height: view.frame.size.width/1.7)
@@ -164,14 +181,29 @@ extension ComicsListViewController {
         collectionView.delegate = self
         collectionView.register(ComicCollectionViewCell.self, forCellWithReuseIdentifier: ComicCollectionViewCell.identifier)
         
+        title = dataMode.title
         view.backgroundColor = .systemBackground
+        view.addSubview(activityIndicator)
         view.addSubview(collectionView)
         
         NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
+    }
+    
+    func displayNoResultView() {
+        let noResultTextView = UITextView.init(frame: self.view.frame)
+        noResultTextView.text = Strings.nothingToShowHere
+        noResultTextView.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        noResultTextView.textAlignment = .center
+        noResultTextView.isEditable = false
+        noResultTextView.translatesAutoresizingMaskIntoConstraints = false
+        view.insertSubview(noResultTextView, at: 0)
     }
 }

@@ -11,7 +11,7 @@ class HomeViewController: UIViewController {
     
     //MARK: - Properties
     
-    weak var coordinator: AppCoordinator?
+    var model: ComicsFlowModel?
     
     let parentStackView = UIStackView()
     let logoImageView = UIImageView()
@@ -29,12 +29,12 @@ class HomeViewController: UIViewController {
     
     @objc
     func showAllComicsScreen() {
-        coordinator?.showAllComicsScreen()
+        model?.showAllComicsScreen()
     }
     
     @objc
     func showFavoriteComicsScreen() {
-        coordinator?.showFavoriteComicsScreen()
+        model?.showFavoriteComicsScreen()
     }
 
     //MARK: - Methods
