@@ -45,6 +45,7 @@ class StorageService {
     
     func saveComic(_ comic: ComicResult) throws {
         let comicEntity = ComicsEntity(context: viewContext)
+        comicEntity.comicID = Int64(comic.id)
         comicEntity.comicName = comic.title
         comicEntity.comicDescription = comic.description
         comicEntity.comicCover = try? JSONEncoder().encode(comic.thumbnail)

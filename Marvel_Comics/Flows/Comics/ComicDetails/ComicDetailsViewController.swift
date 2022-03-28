@@ -57,7 +57,7 @@ class ComicDetailsViewController: UIViewController {
     private func fetchFavoriteState() {
         guard let comic = comic else { return }
         let comics = try? storageService.loadComics()
-        guard let _ = comics?.first(where: { $0 == comic }) else { isComicFavorite = false; return }
+        guard let _ = comics?.first(where: { $0.id == comic.id }) else { isComicFavorite = false; return }
         isComicFavorite = true
     }
     

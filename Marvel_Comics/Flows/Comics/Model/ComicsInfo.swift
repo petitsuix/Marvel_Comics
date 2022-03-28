@@ -16,6 +16,7 @@ struct Results: Codable {
 }
 
 struct ComicResult: Codable {
+    let id: Int
     let title: String
     let description: String?
     let thumbnail: Thumbnail
@@ -33,8 +34,9 @@ struct Thumbnail: Codable {
 
 extension ComicResult {
     init(from comicEntity: ComicsEntity) {
+        self.id = Int(comicEntity.comicID)
         self.title = comicEntity.comicName ?? ""
-        self.description = comicEntity.comicDescription ?? ""
+        self.description = comicEntity.comicDescription
         if let coverData = comicEntity.comicCover, let coverImage = try? JSONDecoder().decode(Thumbnail.self, from: coverData) {
             self.thumbnail = coverImage
         } else {
@@ -51,4 +53,8 @@ extension ComicResult: Equatable, Hashable {
     }
     
     func hash(into hasher: inout Hasher) {}
+}
+
+extension Thumbnail: Equatable, Hashable {
+    
 }
