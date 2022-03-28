@@ -57,7 +57,7 @@ class StorageService {
     
     func deleteComic(_ comic: ComicResult) throws {
         let fetchRequest: NSFetchRequest<ComicsEntity> = ComicsEntity.fetchRequest()
-        let predicate = NSPredicate(format: "comicName == %@", comic.title)
+        let predicate = NSPredicate(format: "comicID == %ld", comic.id)
         fetchRequest.predicate = predicate
         let comicEntities: [ComicsEntity]
         do {
