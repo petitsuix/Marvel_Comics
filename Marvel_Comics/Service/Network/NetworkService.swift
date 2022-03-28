@@ -13,6 +13,10 @@ class NetworkService {
     
     private let session: Session
     private let baseUrl = "https://gateway.marvel.com/v1/public/comics?"
+    private let timeStamp = "ts=1&"
+    private let apiKey = "apikey=\(APIKeys.publicKey)&"
+    private let hash = "hash=\(APIKeys.hash)&"
+    private let limit = "limit=100"
     
     // MARK: - Methods
     
@@ -21,7 +25,7 @@ class NetworkService {
     }
     
     func fetchData(completion: @escaping (Result<ComicsInfo, AFError>) -> Void) {
-        let url = "\(baseUrl)ts=1&apikey=\(APIKeys.publicKey)&hash=\(APIKeys.hash)&limit=100"
+        let url = baseUrl + timeStamp + apiKey + hash + limit
         print(url)
         session.request(url).validate().responseDecodable(of: ComicsInfo.self) { (response) in // creating a data request from the encoded url
             completion(response.result)
