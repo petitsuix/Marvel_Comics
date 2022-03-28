@@ -54,7 +54,3 @@ extension ComicResult: Equatable, Hashable {
     
     func hash(into hasher: inout Hasher) {}
 }
-
-extension Thumbnail: Equatable, Hashable {
-    
-}
